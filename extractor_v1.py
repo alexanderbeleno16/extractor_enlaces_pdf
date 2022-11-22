@@ -4,43 +4,68 @@ import re
 
 status = True 
 try:
-    # LINK_ARCHIVO_PDF = open(r'carpeta_pdf/documentos_prueba_autos_sr_juan/060 OOHH.pdf','rb')   #OK
-    LINK_ARCHIVO_PDF = open(r'pdf_pruebas/documentos_prueba_autos_sr_juan/PRUEBA_1.pdf','rb') #OK
-    # LINK_ARCHIVO_PDF = open(r'carpeta_pdf/documentos_prueba_autos_sr_juan/Estado Electronico No. 065F.pdf','rb')    #OK
-    # LINK_ARCHIVO_PDF = open(r'carpeta_pdf/documentos_prueba_autos_sr_juan/Estado No. 114.pdf','rb') #REGULAR {DOMINIO}
-    # LINK_ARCHIVO_PDF = open(r'carpeta_pdf/documentos_prueba_autos_sr_juan/ESTADO_1.pdf','rb')   #OK
-    # LINK_ARCHIVO_PDF = open(r'carpeta_pdf/documentos_prueba_autos_sr_juan/Estado20220726N083.pdf','rb') #REGULAR {DOMINIO}
-    # LINK_ARCHIVO_PDF = open(r'carpeta_pdf/documentos_prueba_autos_sr_juan/pequeñas causas - laboral 004 barranquilla_27-07-2022 RAMA.pdf','rb') #OK
+    
+    # LINK_ARCHIVO_PDF = open(r'pdf_pruebas/ESTADO_1.pdf','rb') 
+    LINK_ARCHIVO_PDF = open(r'pdf_pruebas/ESTADO_212.pdf','rb') 
     
     PDF = PyPDF2.PdfFileReader(LINK_ARCHIVO_PDF, strict=False)
     paginas = PDF.getNumPages()
+    
+    # print( paginas )
+    # TodoContenidoTextoPdf = PDF.getPage().extract_text()
+    # print( TodoContenidoTextoPdf )
+    
+    text=''
+    for i in range(0,paginas):
+        # creating a page object
+        pageObj = PDF.getPage(i)
+        # extracting text from page
+        text=text+pageObj.extractText()
+        print( pageObj.extract_text() )
+    # print(text)
+    
+    
 
-    dominio = 'https://www.ramajudicial.gov.co'
-    key = '/Annots'
-    url = '/URI'
-    ank = '/A'
+    # dominio = 'https://www.ramajudicial.gov.co'
+    # key = '/Annots'
+    # url = '/URI'
+    # ank = '/A'
+    
+    key = '/Parent'
+    url = '/FlateDecode'
+    ank = '/Filter'
     mylist = []
 
     for page in range(paginas):
         paginaExtraida = PDF.getPage(page)
         ObjetoPaginaExtraida = paginaExtraida.getObject()
+        
+        # print(ObjetoPaginaExtraida)  
         # print(ObjetoPaginaExtraida.keys())  
+        # print("------------------------------------------------")
+        
         if key in ObjetoPaginaExtraida.keys():
+            # print( ObjetoPaginaExtraida[key] )
             array_objetos = ObjetoPaginaExtraida[key]
-            for obj in array_objetos:
-                try:
-                    objeto = obj.getObject()
-                    # print( objeto[ank].keys() )
-                    if url in objeto[ank].keys():
-                        link=""
-                        if ( re.search("^"+dominio+"*", objeto[ank][url]) ):
-                            link = objeto[ank][url]
-                        else:
-                            link = dominio+str(objeto[ank][url])
-                        mylist.append(link)
-                        # print(objeto[ank][url])
-                except KeyError:
-                    pass
+            # array_objetos = ObjetoPaginaExtraida
+            # print( array_objetos['/Kids'][0] ) 
+            
+            # for obj in array_objetos:
+            #     try:
+                    # objeto = obj.getObject()
+                    # print( objeto[0] )
+                    
+                    # if url in objeto[ank].keys():
+                        # print( objeto[ank][url] )
+                    #     link=""
+                    #     if ( re.search("^"+dominio+"*", objeto[ank][url]) ):
+                    #         link = objeto[ank][url]
+                    #     else:
+                    #         link = dominio+str(objeto[ank][url])
+                    #     mylist.append(link)
+                    #     print(objeto[ank][url])
+                # except KeyError:
+                #     pass
                 
                 
                 
