@@ -1,0 +1,5 @@
+# texto = paginaExtraida.extractText() #TODO EL TEXTO POR PAGINAS
+# texto = str(texto).replace('\\','')
+# texto = re.findall(r"([0-9][0-9][-][0-9][0-9][0-9]?[0-9]?[0-9]?[0-9]?)", texto) #<List>RADICADO ANIO Y RADICADO SEPARADO POR GUIONES. EJ: 22-426253 
+# texto = re.findall(r"([0-9][0-9][-][0-9][0-9][0-9]?[0-9]?[0-9]?[0-9]?)|([0-9]{23,23})", texto) #<List>RADICADO ANIO Y RADICADO Ó RADICADO DE 23 DIGITOS. EJ:  22-426253 08001418901720210092800
+# texto = re.findall(r"([0-9]{23,23})", texto) #<List>RADICADO DE 23 DIGITOS. EJ: 08001418901720210092800
